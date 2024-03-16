@@ -14,14 +14,26 @@
       </transition>
     </template>
   </RouterView>
-
+  <Auth />
   <Play />
 </template>
 
 <script setup>
-  import Header from '@/components/Header.vue'
-  import Play from '@/components/Play.vue'
-  import Spinner from './components/Spinner.vue'
+  import Auth from '@/components/Auth.vue';
+  import Header from '@/components/Header.vue';
+  import Play from '@/components/Play.vue';
+  import Spinner from '@/components/Spinner.vue';
+  import { auth } from '@/includes/firebase';
+  import useUserStore from '@/stores/user';
+  import { storeToRefs } from 'pinia';
+
+  const userStore = useUserStore();
+  const { userLoggedIn } = storeToRefs(userStore);
+  const checkLogin = () => {
+    if (auth.currentUser) userLoggedIn.value = true;
+  };
+
+  checkLogin();
 </script>
 
 <style scoped>

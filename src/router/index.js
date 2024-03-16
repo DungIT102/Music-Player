@@ -1,5 +1,7 @@
-import Home from '@/views/Home.vue'
-import { createRouter, createWebHistory } from 'vue-router'
+import useUserStore from '@/stores/user';
+import Home from '@/views/Home.vue';
+import { storeToRefs } from 'pinia';
+import { createRouter, createWebHistory } from 'vue-router';
 
 const routes = [
   {
@@ -27,11 +29,24 @@ const routes = [
     path: '/:pathMatch(.*)*',
     redirect: { name: 'home' }
   }
-]
+];
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes
-})
+});
 
-export default router
+router.beforeEach((to, from, next) => {
+  if (!to.meta.requiresAuth) return next();
+
+  const userStore = useUserStore();
+  const { userLoggedIn } = storeToRefs(userStore);
+
+  if (userLoggedIn.value) {
+    next();
+  } else {
+    next({ name: 'home' });
+  }
+});
+
+export default router;

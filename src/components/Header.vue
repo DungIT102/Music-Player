@@ -11,16 +11,18 @@
           <li>
             <RouterLink class="text-white px-2" :to="{ name: 'about' }">About</RouterLink>
           </li>
-          <li>
-            <a class="text-white px-2" href="#">Login / Register</a>
+          <li v-if="!userLoggedIn">
+            <a class="text-white px-2" href="#" @click.prevent="toggleAuthModal">
+              Login / Register
+            </a>
           </li>
 
-          <template>
+          <template v-else>
             <li>
               <RouterLink class="text-white px-2" :to="{ name: 'manage' }">Manage</RouterLink>
             </li>
             <li>
-              <a href="#" class="text-white px-2">Logout</a>
+              <a href="#" class="text-white px-2" @click.prevent="signOut">Logout</a>
             </li>
           </template>
         </ul>
@@ -29,6 +31,32 @@
   </header>
 </template>
 
-<script setup></script>
+<script setup>
+  import useModalStore from '@/stores/modal';
+  import useUserStore from '@/stores/user';
+  import { storeToRefs } from 'pinia';
+  import { useRoute, useRouter } from 'vue-router';
+
+  const userStore = useUserStore();
+  const modalStore = useModalStore();
+  const { signOut: Exit } = userStore;
+  const { meta } = useRoute();
+  const { push } = useRouter();
+
+  const { userLoggedIn } = storeToRefs(userStore);
+  const { isOpen } = storeToRefs(modalStore);
+
+  const toggleAuthModal = () => {
+    isOpen.value = !isOpen.value;
+  };
+
+  const signOut = async () => {
+    await Exit();
+
+    if (meta.requiresAuth) {
+      push({ name: 'home' });
+    }
+  };
+</script>
 
 <style scoped></style>
