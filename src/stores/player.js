@@ -1,4 +1,4 @@
-import { formatTime } from '@/includes/helper';
+import helper from '@/includes/helper';
 import { Howl } from 'howler';
 import { defineStore } from 'pinia';
 
@@ -47,8 +47,8 @@ export default defineStore('player', {
     },
 
     progress() {
-      this.seek = formatTime(this.sound.seek());
-      this.duration = formatTime(this.sound.duration());
+      this.seek = helper.formatTime(this.sound.seek());
+      this.duration = helper.formatTime(this.sound.duration());
       this.playerProgress = `${(this.sound.seek() / this.sound.duration()) * 100}%`;
 
       if (this.sound.playing()) {

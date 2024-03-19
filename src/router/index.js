@@ -18,7 +18,10 @@ const routes = [
   {
     name: 'manage',
     path: '/manage',
-    component: () => import('@/views/Manage.vue')
+    component: () => import('@/views/Manage.vue'),
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     name: 'song',
@@ -43,6 +46,8 @@ router.beforeEach((to, from, next) => {
   const { userLoggedIn } = storeToRefs(userStore);
 
   if (userLoggedIn.value) {
+    console.log(userLoggedIn.value);
+
     next();
   } else {
     next({ name: 'home' });
