@@ -19,6 +19,7 @@
       >
         <span class="comments" @click="navigate">
           <i class="fa fa-comments text-gray-600"></i>
+          {{ song.comment_count }}
         </span>
       </router-link>
     </div>

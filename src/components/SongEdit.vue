@@ -117,6 +117,7 @@
     props.updateSong(props.index, values);
     props.updateUnsavedFlag(false);
     infoEdit.submission = false;
+    showForm.value = false;
     infoEdit.alertVariant = 'bg-green-500';
     infoEdit.alertMsg = 'Success!';
   };

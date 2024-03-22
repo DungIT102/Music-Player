@@ -27,7 +27,7 @@
     <section class="container mx-auto mt-6" id="comments">
       <div class="relative flex flex-col bg-white rounded border border-gray-200">
         <div class="px-6 pt-6 pb-5 font-bold border-b border-gray-200">
-          <span class="card-title"> 2 </span>
+          <span class="card-title"> {{ song.comment_count }}</span>
           <i class="fa fa-comments float-right text-green-400 text-2xl"></i>
         </div>
         <div class="p-6">
